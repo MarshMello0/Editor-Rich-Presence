@@ -1,4 +1,6 @@
 # UERP
+![Example Image](https://raw.githubusercontent.com/MarshMello0/UERP/master/Art%20Assets/Example%20Image.PNG)
+
 Show off what your working on in unity with UERP (Unity Editor Rich Presence) on discord.
 
 
