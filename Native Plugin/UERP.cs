@@ -48,6 +48,14 @@ public class UERP
     {
         Application.OpenURL("https://github.com/MarshMello0/UERP");
     }
+    //This button is if for some reason they want to reset they prefs to the default
+    [MenuItem("UERP/Reset to default")]
+    private static void ResetPrefs()
+    {
+        EditorPrefs.DeleteAll();
+        EditorPrefs.SetBool("enabled", true);
+        AssetDatabase.Refresh();
+    }
 
     //This gets called once everytime it recompiles / loads up
     static UERP() 
@@ -60,6 +68,12 @@ public class UERP
             //This is here incase it didn't exist
             EditorPrefs.SetBool("enabled", true);
         }
+        //This is true if the currentScene hasn't been set
+        if (EditorPrefs.GetString("currentScene", "") == "")
+        {
+            EditorPrefs.SetString("currentScene", EditorSceneManager.GetActiveScene().name);
+            EditorPrefs.SetString("timestamp", GetTimestamp());
+        }
     }
 
     //This runs every frame like the runtime Update()
@@ -71,20 +85,28 @@ public class UERP
 
     private static void Init()
     {
-        EditorSceneManager.sceneOpened += SceneOpened;
-        
-        callbackCalls = 0;
-        handlers = new DiscordRpc.EventHandlers();
-        handlers.disconnectedCallback += DisconnectedCallback;
-        handlers.errorCallback += ErrorCallback;
-        handlers.requestCallback += RequestCallback;
-        DiscordRpc.Initialize(applicationId, ref handlers, true, "1234");
+        try
+        {
+            EditorSceneManager.sceneOpened += SceneOpened;
 
+            callbackCalls = 0;
+            handlers = new DiscordRpc.EventHandlers();
+            handlers.disconnectedCallback += DisconnectedCallback;
+            handlers.errorCallback += ErrorCallback;
+            handlers.requestCallback += RequestCallback;
+            DiscordRpc.Initialize(applicationId, ref handlers, true, "1234");
+        }
+        catch(Exception e)
+        {
+            AssetDatabase.Refresh();
+        }
         UpdatePresence();
     }
 
     private static void SceneOpened(UnityEngine.SceneManagement.Scene scene, OpenSceneMode mode)
     {
+        EditorPrefs.SetString("currentScene", EditorSceneManager.GetActiveScene().name);
+        EditorPrefs.SetString("timestamp", GetTimestamp());
         //Every time a new scene is opened, it will call the update presence
         UpdatePresence();
     }
@@ -95,10 +117,11 @@ public class UERP
         DiscordRpc.RichPresence discordPresence = new DiscordRpc.RichPresence();
         discordPresence.state = "Scene: " + EditorSceneManager.GetActiveScene().name;
         discordPresence.details = "Project: " + GetProjectName();
+        discordPresence.startTimestamp = long.Parse(EditorPrefs.GetString("timestamp",GetTimestamp()));
         discordPresence.largeImageKey = "logo";
         discordPresence.largeImageText = "Unity " + Application.unityVersion;
         discordPresence.smallImageKey = "marshmello";
-        discordPresence.smallImageText = "Provided by UERP";
+        discordPresence.smallImageText = "UERP on Github";
         DiscordRpc.UpdatePresence(discordPresence);
     }
 
@@ -123,5 +146,11 @@ public class UERP
     private static void DisconnectedCallback(int errorCode, string message)
     {
         Debug.Log("Unity Editor Rich Presence has been disconnected \n " + errorCode + " | " + message);
+    }
+
+    public static String GetTimestamp()
+    {
+        long unixTimestamp = (long)(DateTime.Now.Subtract(new DateTime(1970, 1, 1))).TotalSeconds;
+        return unixTimestamp.ToString();
     }
 }
