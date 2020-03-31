@@ -6,73 +6,120 @@ using Discord;
 using System;
 using UnityEditor.SceneManagement;
 using UnityEditor;
-[InitializeOnLoad]
-public class UERP : MonoBehaviour
+using System.IO;
+
+namespace UERP
 {
-    private static string applicationId = "509465267630374935";
-    private static string prefix = "<b>UERP</b>";
-    private static Discord.Discord discord;
+    [InitializeOnLoad]
+    public class UERP
+    {
+        private const string applicationId = "509465267630374935";
+        private const string prefix = "<b>UERP</b>";
 
-    //This gets called once everytime it recompiles / loads up
-    private UERP()
-    {
-        Init();
-    }
-    [MenuItem("UERP/Init")]
-    private static void Init()
-    {
-        Log("Starting up...");
-        EditorApplication.update += Update;
-        discord = new Discord.Discord(Int64.Parse(applicationId), (UInt64)Discord.CreateFlags.Default);
-        UpdateActivity();
-        Log("Started!");
-    }
-    private static void Update()
-    {
-        if (discord != null)
-            discord.RunCallbacks();
-        
-    }
-    private static void UpdateActivity()
-    {
-        var activityManager = discord.GetActivityManager();
-        var lobbyManager = discord.GetLobbyManager();
+        public static Discord.Discord discord { get; private set; }
+        private static long lastTimestamp;
 
-        var activity = new Discord.Activity
+        public static string projectName { get; private set; }
+        public static string sceneName { get; private set; }
+        public static bool showSceneName  = true;
+        public static bool showProjectName = true;
+        public static bool resetOnSceneChange = false;
+        public static bool debugMode = false;
+
+        //This gets called once everytime it recompiles / loads up
+        private UERP()
         {
-            State = "olleh",
-            Details = "foo details",
-            Timestamps =
-            {
-                Start = 5,
-                End = 6,
-            },
-            Assets =
-            {
-                LargeImage = "foo largeImageKey",
-                LargeText = "foo largeImageText",
-                SmallImage = "foo smallImageKey",
-                SmallText = "foo smallImageText",
-            },
-        };
-
-        activityManager.UpdateActivity(activity, result =>
+            Init();
+        }
+        [MenuItem("UERP/Init")]
+        public static void Init()
         {
-            Log("Update Activity {0}" + result.ToString());
-        });
-    }
-    private static void Log(object message)
-    {
-        Debug.Log(prefix + ": " + message);
-    }
-    private static void LogWarning(object message)
-    {
-        Debug.LogWarning(prefix + ": " + message);
-    }
-    private static void LogError(object message)
-    {
-        Debug.LogError(prefix + ": " + message);
-    }
+            Log("Starting up...");
+            discord = new Discord.Discord(long.Parse(applicationId), (long)Discord.CreateFlags.Default);
+            UERPSettings.GetSettings();
+            projectName = Application.productName;
+            sceneName = EditorSceneManager.GetActiveScene().name;
+            lastTimestamp = long.Parse(GetTimestamp());
+            UpdateActivity();
+            Log("Started!");
 
+            EditorApplication.update += Update;
+            EditorSceneManager.sceneOpened += SceneOpened;
+        }
+
+        private static void SceneOpened(UnityEngine.SceneManagement.Scene scene, OpenSceneMode mode)
+        {
+            if (resetOnSceneChange)
+                lastTimestamp = long.Parse(GetTimestamp());
+            sceneName = EditorSceneManager.GetActiveScene().name;
+            UpdateActivity();
+        }
+
+        private static void Update()
+        {
+            if (discord != null)
+                discord.RunCallbacks();
+
+        }
+        public static void UpdateActivity()
+        {
+            if (debugMode)
+                Log("Updating Activity");
+            if (discord == null)
+                Init();
+
+            projectName = Application.productName;
+            sceneName = EditorSceneManager.GetActiveScene().name;
+
+            var activityManager = discord.GetActivityManager();
+
+            var activity = new Activity
+            {
+                State = showProjectName? projectName: "",
+                Details = showSceneName? sceneName : "",
+                Timestamps =
+            {
+                Start = lastTimestamp
+            },
+                Assets =
+            {
+                LargeImage = "logo",
+                LargeText = "Unity " + Application.unityVersion,
+                SmallImage = "marshmello",
+                SmallText = "UERP on Github",
+            },
+            };
+
+            activityManager.UpdateActivity(activity, result =>
+            {
+                if (result != Result.Ok)
+                    LogError("Error from discord (" + result.ToString() + ")");
+                else if (debugMode)
+                    Log("Discord Result = " + result.ToString());
+            });
+
+            UERPSettings.SaveSettings();
+        }
+        public static String GetTimestamp()
+        {
+            long unixTimestamp = (long)(DateTime.Now.Subtract(new DateTime(1970, 1, 1))).TotalSeconds;
+            if (debugMode)
+                Log("Got timestamp: " + unixTimestamp);
+            return unixTimestamp.ToString();
+        }
+        public static void Log(object message)
+        {
+            Debug.Log(prefix + ": " + message);
+        }
+        public static void LogWarning(object message)
+        {
+            Debug.LogWarning(prefix + ": " + message);
+        }
+        public static void LogError(object message)
+        {
+            Debug.LogError(prefix + ": " + message);
+        }
+
+    }
 }
 #endif
