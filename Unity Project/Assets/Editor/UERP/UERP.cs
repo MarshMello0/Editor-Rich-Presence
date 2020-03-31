@@ -26,12 +26,15 @@ namespace UERP
         public static bool resetOnSceneChange = false;
         public static bool debugMode = false;
 
-        //This gets called once everytime it recompiles / loads up
         private UERP()
         {
             Init();
         }
-        [MenuItem("UERP/Init")]
+        [MenuItem("UERP/Github")]
+        private static void OpenGithub()
+        {
+            Application.OpenURL("https://github.com/MarshMello0/UERP");
+        }
         public static void Init()
         {
             Log("Starting up...");
@@ -45,6 +48,12 @@ namespace UERP
 
             EditorApplication.update += Update;
             EditorSceneManager.sceneOpened += SceneOpened;
+            EditorApplication.playModeStateChanged += PlayModeStateChanged;
+        }
+
+        private static void PlayModeStateChanged(PlayModeStateChange obj)
+        {
+            UpdateActivity();
         }
 
         private static void SceneOpened(UnityEngine.SceneManagement.Scene scene, OpenSceneMode mode)
@@ -70,6 +79,9 @@ namespace UERP
 
             projectName = Application.productName;
             sceneName = EditorSceneManager.GetActiveScene().name;
+
+            if (EditorApplication.isPlaying)
+                sceneName = "Playing: " + sceneName;
 
             var activityManager = discord.GetActivityManager();
 
