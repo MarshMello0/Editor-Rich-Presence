@@ -1,9 +1,9 @@
 ﻿#if UNITY_EDITOR
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Discord;
-using System;
 using UnityEditor.SceneManagement;
 using UnityEditor;
 using System.IO;
@@ -11,7 +11,7 @@ using System.IO;
 namespace UERP
 {
     [InitializeOnLoad]
-    public class UERP
+    public static class UERP
     {
         private const string applicationId = "509465267630374935";
         private const string prefix = "<b>UERP</b>";
@@ -25,8 +25,7 @@ namespace UERP
         public static bool showProjectName = true;
         public static bool resetOnSceneChange = false;
         public static bool debugMode = false;
-
-        private UERP()
+        static UERP()
         {
             Init();
         }
@@ -37,23 +36,27 @@ namespace UERP
         }
         public static void Init()
         {
-            Log("Starting up...");
             discord = new Discord.Discord(long.Parse(applicationId), (long)Discord.CreateFlags.Default);
             UERPSettings.GetSettings();
             projectName = Application.productName;
             sceneName = EditorSceneManager.GetActiveScene().name;
             lastTimestamp = long.Parse(GetTimestamp());
             UpdateActivity();
-            Log("Started!");
-
+            
             EditorApplication.update += Update;
             EditorSceneManager.sceneOpened += SceneOpened;
             EditorApplication.playModeStateChanged += PlayModeStateChanged;
+            Log("Started!");
         }
 
         private static void PlayModeStateChanged(PlayModeStateChange obj)
         {
-            UpdateActivity();
+            if (obj == PlayModeStateChange.EnteredPlayMode || obj == PlayModeStateChange.EnteredEditMode)
+            {
+                if (debugMode)
+                    Log("PlayMode State Changed = " + obj);
+                UpdateActivity();
+            }
         }
 
         private static void SceneOpened(UnityEngine.SceneManagement.Scene scene, OpenSceneMode mode)

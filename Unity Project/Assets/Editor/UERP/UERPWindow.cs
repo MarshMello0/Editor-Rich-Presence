@@ -23,7 +23,10 @@ namespace UERP
 
             GUILayout.Label("Current Project: " + UERP.projectName);
             GUILayout.Label("Current Scene: " + UERP.sceneName);
-
+            GUILayout.Label(string.Empty);
+            GUILayout.Label($"Scene Name Visible:{UERP.showSceneName}");
+            GUILayout.Label($"Project Name Visible:{UERP.showProjectName}");
+            GUILayout.Label($"Reset Timestap on scene change:{UERP.resetOnSceneChange}");
 
             if (ToggleButton("Hide Scene name","Show Scene name", ref UERP.showSceneName))
             {
@@ -37,7 +40,10 @@ namespace UERP
             {
                 UERP.UpdateActivity();
             }
-            ToggleButton("Disable Debug Mode", "Enable Debug Mode", ref UERP.debugMode);
+            if (ToggleButton("Disable Debug Mode", "Enable Debug Mode", ref UERP.debugMode))
+            {
+                UERPSettings.SaveSettings();
+            }
         }
 
         private bool ToggleButton(string trueText, string falseText, ref bool value)
