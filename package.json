@@ -2,7 +2,7 @@
   "name": "com.ben-w.uerp",
   "version": "3.0.0",
   "displayName": "Unity Editor Rich Presence",
-  "description": "Adds discords rich presence to the Unity editor so you can share to your friends what you are currently working on",
+  "description": "Show off what your working on in unity with UERP (Unity Editor Rich Presence) on discord.",
   "keywords": [
     "Discord",
     "Rich Presense",

@@ -1,15 +1,12 @@
-# UERP
-![Example Image](https://raw.githubusercontent.com/MarshMello0/UERP/master/Art%20Assets/Example%20Image.PNG)
+# Unity Editor Rich Presence (UERP)
+![Example Image](https://i.imgur.com/AcnAVwj.png)
 
 Show off what your working on in unity with UERP (Unity Editor Rich Presence) on discord.
 
-
 ## Download
-Head over the the [releases tab](https://github.com/MarshMello0/UERP/releases) and download the latest version of UERP
 
-## FAQ
+To add this package to your project please refer to the "[Installing from Git URL](https://docs.unity3d.com/Manual/upm-ui-giturl.html)" documentation by Unity
 
-### I got this error "DllNotFoundException: discord-rpc"
+## Warning
 
-If this error occrse when you first install the package, try recompiling a script then the error should be gone.
-This can be done by just saving a edited script
+This package makes a `.uerp` file in the root of the project if you don't want this to be shared in a git repo add it to your ignore list.
