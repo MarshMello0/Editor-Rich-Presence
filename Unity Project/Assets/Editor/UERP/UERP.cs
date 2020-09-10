@@ -38,11 +38,6 @@ namespace UERP
             await Task.Delay(1000);
             Init();
         }
-        [MenuItem("UERP/Github")]
-        private static void OpenGithub()
-        {
-            Application.OpenURL("https://github.com/MarshMello0/UERP");
-        }
         public static void Init()
         {
             discord = new Discord.Discord(long.Parse(applicationId), (long)Discord.CreateFlags.Default);

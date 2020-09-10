@@ -44,6 +44,11 @@ namespace UERP
             {
                 UERPSettings.SaveSettings();
             }
+            GUILayout.Label(string.Empty);
+            if (GUILayout.Button("Open UERP on Github"))
+            {
+                Application.OpenURL("https://github.com/MarshMello0/UERP");
+            }
         }
 
         private bool ToggleButton(string trueText, string falseText, ref bool value)
