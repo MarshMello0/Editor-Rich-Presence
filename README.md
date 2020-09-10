@@ -1,7 +1,7 @@
 # Unity Editor Rich Presence (UERP)
 ![Example Image](https://i.imgur.com/AcnAVwj.png)
 
-Show off what your working on in unity with UERP (Unity Editor Rich Presence) on discord.
+Show off what you're working on in unity with UERP (Unity Editor Rich Presence) on discord.
 
 ## Download
 
