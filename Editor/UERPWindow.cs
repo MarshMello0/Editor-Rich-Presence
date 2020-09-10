@@ -17,8 +17,16 @@ namespace UERP
         }
         private void OnGUI()
         {
-            if (UERP.discord == null)
-                UERP.Init();
+            if (UERP.discord == null && !UERP.Failed)
+                UERP.DelayStart();
+
+            if (UERP.Failed)
+            {
+                GUILayout.Label($"UERP Failed to start", EditorStyles.boldLabel);
+                if (GUILayout.Button("Retry"))
+                    UERP.Init();
+                return;
+            }
             GUILayout.Label("Unity Editor Rich Presence", EditorStyles.boldLabel);
 
             GUILayout.Label("Current Project: " + UERP.projectName);

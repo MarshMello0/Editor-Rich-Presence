@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Discord
+namespace UERP.Discord
 {
     public partial class ActivityManager
     {

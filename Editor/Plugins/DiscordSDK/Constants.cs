@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Discord
+namespace UERP.Discord
 {
     static class Constants
     {

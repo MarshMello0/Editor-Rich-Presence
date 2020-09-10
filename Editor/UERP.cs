@@ -3,12 +3,12 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Discord;
 using UnityEditor.SceneManagement;
 using UnityEditor;
 using System.IO;
 using System.Threading.Tasks;
 using System.Threading;
+using UERP.Discord;
 
 namespace UERP
 {
@@ -29,19 +29,34 @@ namespace UERP
         public static bool debugMode = false;
         public static bool EditorClosed = false;
         public static long lastTimestamp = 0;
+
+        public static bool Failed;
         static UERP()
         {
             DelayStart();
         }
-        private static async void DelayStart()
+        public static async void DelayStart(int delay = 1000)
         {
-            await Task.Delay(1000);
+            await Task.Delay(delay);
             Init();
         }
         public static void Init()
         {
-            discord = new Discord.Discord(long.Parse(applicationId), (long)Discord.CreateFlags.Default);
             UERPSettings.GetSettings();
+            try
+            {
+                discord = new Discord.Discord(long.Parse(applicationId), (long)CreateFlags.Default);
+            }
+            catch (Exception e)
+            {
+                if (debugMode)
+                    LogWarning("Expected Error, retrying\n" + e.ToString());
+                Failed = true;
+                if (!Failed)
+                    DelayStart(2000);
+                return;
+            }
+
             if (EditorClosed)
             {
                 EditorClosed = false;

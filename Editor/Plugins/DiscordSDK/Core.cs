@@ -2,7 +2,7 @@ using System;
 using System.Runtime.InteropServices;
 using System.Text;
 
-namespace Discord
+namespace UERP.Discord
 {
     public enum Result
     {
