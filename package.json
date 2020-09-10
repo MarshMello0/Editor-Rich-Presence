@@ -1,0 +1,17 @@
+{
+  "name": "com.ben-w.uerp",
+  "version": "3.0.0",
+  "displayName": "Unity Editor Rich Presence",
+  "description": "Adds discords rich presence to the Unity editor so you can share to your friends what you are currently working on",
+  "keywords": [
+    "Discord",
+    "Rich Presense",
+    "Editor Tool"
+  ],
+  "author": {
+    "name": "Ben Wilson",
+    "email": "me@ben-w.com",
+    "url": "https://github.com/MarshMello0/UERP"
+  },
+  "type": "tool"
+}
