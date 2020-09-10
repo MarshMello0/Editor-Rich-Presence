@@ -24,9 +24,9 @@ namespace UERP
             GUILayout.Label("Current Project: " + UERP.projectName);
             GUILayout.Label("Current Scene: " + UERP.sceneName);
             GUILayout.Label(string.Empty);
-            GUILayout.Label($"Scene Name Visible:{UERP.showSceneName}");
-            GUILayout.Label($"Project Name Visible:{UERP.showProjectName}");
-            GUILayout.Label($"Reset Timestap on scene change:{UERP.resetOnSceneChange}");
+            GUILayout.Label($"Scene Name Visible: {UERP.showSceneName}");
+            GUILayout.Label($"Project Name Visible: {UERP.showProjectName}");
+            GUILayout.Label($"Reset Timestap on scene change: {UERP.resetOnSceneChange}");
 
             if (ToggleButton("Hide Scene name","Show Scene name", ref UERP.showSceneName))
             {

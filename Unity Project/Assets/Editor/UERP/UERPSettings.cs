@@ -16,15 +16,19 @@ namespace UERP
         public bool showProjectName;
         public bool resetOnSceneChange;
         public bool debugMode;
+        public bool EditorClosed;
+        public long LastTimestamp;
 
         public UERPSettings(){}
 
-        public UERPSettings(bool showSceneName, bool showProjectName, bool resetOnSceneChange, bool debugMode)
+        public UERPSettings(bool showSceneName, bool showProjectName, bool resetOnSceneChange, bool debugMode, bool editorClosed, long lastTimestamp)
         {
             this.showSceneName = showSceneName;
             this.showProjectName = showProjectName;
             this.resetOnSceneChange = resetOnSceneChange;
             this.debugMode = debugMode;
+            EditorClosed = editorClosed;
+            LastTimestamp = lastTimestamp;
         }
 
         public static void GetSettings()
@@ -45,13 +49,15 @@ namespace UERP
             UERP.showProjectName = settings.showProjectName;
             UERP.resetOnSceneChange = settings.resetOnSceneChange;
             UERP.debugMode = settings.debugMode;
+            UERP.EditorClosed = settings.EditorClosed;
+            UERP.lastTimestamp = settings.LastTimestamp;
             if (UERP.debugMode)
                 UERP.Log("Applyed Settings from file");
         }
 
         public static void SaveSettings()
         {
-            UERPSettings settings = new UERPSettings(UERP.showSceneName, UERP.showProjectName, UERP.resetOnSceneChange, UERP.debugMode);
+            UERPSettings settings = new UERPSettings(UERP.showSceneName, UERP.showProjectName, UERP.resetOnSceneChange, UERP.debugMode, UERP.EditorClosed, UERP.lastTimestamp);
 
             XmlSerializer serializer = new XmlSerializer(typeof(UERPSettings));
             var stream = new FileStream(path, FileMode.Create);
