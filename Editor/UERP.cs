@@ -27,7 +27,7 @@ namespace UERP
         public static bool showProjectName = true;
         public static bool resetOnSceneChange = false;
         public static bool debugMode = false;
-        public static bool EditorClosed = false;
+        public static bool EditorClosed = true;
         public static long lastTimestamp = 0;
 
         public static bool Failed;
@@ -51,9 +51,9 @@ namespace UERP
             {
                 if (debugMode)
                     LogWarning("Expected Error, retrying\n" + e.ToString());
-                Failed = true;
                 if (!Failed)
                     DelayStart(2000);
+                Failed = true;
                 return;
             }
 
