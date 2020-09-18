@@ -3,7 +3,7 @@ using System.Runtime.InteropServices;
 using System.Collections.Generic;
 using System.Text;
 
-namespace UERP.Discord
+namespace ERP.Discord
 {
     public partial class StoreManager
     {
