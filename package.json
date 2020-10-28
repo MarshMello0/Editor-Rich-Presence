@@ -1,8 +1,8 @@
 {
-  "name": "com.ben-w.uerp",
+  "name": "com.ben-w.erp",
   "version": "3.0.2",
   "displayName": "Editor Rich Presence",
-  "description": "Show off what you're working on in unity with ERP (Editor Rich Presence) on discord.",
+  "description": "Show off what you're working on in unity with Editor Rich Presence on discord.",
   "keywords": [
     "Discord",
     "Rich Presense",
@@ -11,7 +11,7 @@
   "author": {
     "name": "Ben Wilson",
     "email": "me@ben-w.com",
-    "url": "https://github.com/MarshMello0/UERP"
+    "url": "https://github.com/MarshMello0/Editor-Rich-Presence"
   },
   "type": "tool"
 }
