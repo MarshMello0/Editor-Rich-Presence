@@ -33,6 +33,7 @@ namespace ERP
         public static bool Failed;
         static ERP()
         {
+            ERPSettings.GetSettings();
             DelayStart();
         }
         public static async void DelayStart(int delay = 1000)
@@ -42,7 +43,6 @@ namespace ERP
         }
         public static void Init()
         {
-            ERPSettings.GetSettings();
             try
             {
                 discord = new Discord.Discord(long.Parse(applicationId), (long)CreateFlags.Default);
