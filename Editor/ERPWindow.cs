@@ -55,7 +55,7 @@ namespace ERP
             GUILayout.Label(string.Empty);
             if (GUILayout.Button("Open ERP on Github"))
             {
-                Application.OpenURL("https://github.com/MarshMello0/ERP");
+                Application.OpenURL("https://github.com/MarshMello0/Editor-Rich-Presence");
             }
         }
 
