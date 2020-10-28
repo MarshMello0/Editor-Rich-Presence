@@ -9,10 +9,10 @@ namespace ERP
     {
         private static ERPWindow _window;
 
-        [MenuItem("Window/ERP")]
+        [MenuItem("Window/Editor Rich Presence")]
         private static void Init()
         {
-            _window = (ERPWindow)GetWindow(typeof(ERPWindow), false, "ERP");
+            _window = (ERPWindow)GetWindow(typeof(ERPWindow), false, "Editor Rich Presence");
             _window.Show();
         }
         private void OnGUI()
