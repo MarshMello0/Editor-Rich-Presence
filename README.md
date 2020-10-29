@@ -7,7 +7,7 @@ Show off what you're working on in unity with Editor Rich Presence on discord.
 
 ## Download
 
-To add this package to your project please refer to the "[Installing from Git URL](https://docs.unity3d.com/Manual/upm-ui-giturl.html)" documentation by Unity
+You can now download Editor Rich Presence from the Unity Asset store from [here](https://assetstore.unity.com/packages/tools/utilities/editor-rich-presence-178736)!
 
 ## Warning
 
