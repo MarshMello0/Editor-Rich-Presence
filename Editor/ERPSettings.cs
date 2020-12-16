@@ -52,8 +52,7 @@ namespace ERP
             ERP.debugMode = settings.debugMode;
             ERP.EditorClosed = settings.EditorClosed;
             ERP.lastTimestamp = settings.LastTimestamp;
-            if (ERP.debugMode)
-                ERP.Log("Applyed Settings from file");
+            ERP.Log("Applied Settings from file");
         }
 
         public static void SaveSettings()
@@ -64,8 +63,7 @@ namespace ERP
             var stream = new FileStream(path, FileMode.Create);
             serializer.Serialize(stream, settings);
             stream.Close();
-            if (ERP.debugMode)
-                ERP.Log("Saved Settings");
+            ERP.Log("Saved Settings");
         }
     }
 

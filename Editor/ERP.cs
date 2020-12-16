@@ -19,11 +19,11 @@ namespace ERP
         private const string prefix = "<b>ERP</b>";
 
         public static Discord.Discord discord { get; private set; }
-        
+
 
         public static string projectName { get; private set; }
         public static string sceneName { get; private set; }
-        public static bool showSceneName  = true;
+        public static bool showSceneName = true;
         public static bool showProjectName = true;
         public static bool resetOnSceneChange = false;
         public static bool debugMode = false;
@@ -65,7 +65,7 @@ namespace ERP
             projectName = Application.productName;
             sceneName = EditorSceneManager.GetActiveScene().name;
             UpdateActivity();
-            
+
             EditorApplication.update += Update;
             EditorSceneManager.sceneOpened += SceneOpened;
             EditorApplication.quitting += Quitting;
@@ -95,8 +95,7 @@ namespace ERP
         }
         public static void UpdateActivity()
         {
-            if (debugMode)
-                Log("Updating Activity");
+            Log("Updating Activity");
             if (discord == null)
                 Init();
 
@@ -118,7 +117,7 @@ namespace ERP
                     LargeImage = "logo",
                     LargeText = "Unity " + Application.unityVersion,
                     SmallImage = "marshmello",
-                    SmallText = "ERP on Github",
+                    SmallText = "ERP on Unity Asset Store",
                 },
             };
 
@@ -126,7 +125,7 @@ namespace ERP
             {
                 if (result != Result.Ok)
                     LogError("Error from discord (" + result.ToString() + ")");
-                else if (debugMode)
+                else
                     Log("Discord Result = " + result.ToString());
             });
 
@@ -135,17 +134,18 @@ namespace ERP
         public static long GetTimestamp()
         {
             long unixTimestamp = DateTimeOffset.Now.ToUnixTimeSeconds();
-            if (debugMode)
-                Log("Got timestamp: " + unixTimestamp);
+            Log("Got time stamp: " + unixTimestamp);
             return unixTimestamp;
         }
         public static void Log(object message)
         {
-            Debug.Log(prefix + ": " + message);
+            if (debugMode)
+                Debug.Log(prefix + ": " + message);
         }
         public static void LogWarning(object message)
         {
-            Debug.LogWarning(prefix + ": " + message);
+            if (debugMode)
+                Debug.LogWarning(prefix + ": " + message);
         }
         public static void LogError(object message)
         {
