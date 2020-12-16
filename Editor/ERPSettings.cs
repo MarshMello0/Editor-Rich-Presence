@@ -1,4 +1,5 @@
-﻿using System;
+﻿#if UNITY_EDITOR
+using System;
 using System.IO;
 using System.Collections;
 using System.Collections.Generic;
@@ -19,7 +20,7 @@ namespace ERP
         public bool EditorClosed;
         public long LastTimestamp;
 
-        public ERPSettings(){}
+        public ERPSettings() { }
 
         public ERPSettings(bool showSceneName, bool showProjectName, bool resetOnSceneChange, bool debugMode, bool editorClosed, long lastTimestamp)
         {
@@ -69,3 +70,4 @@ namespace ERP
     }
 
 }
+#endif

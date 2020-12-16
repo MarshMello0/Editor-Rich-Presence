@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿#if UNITY_EDITOR
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
@@ -36,7 +37,7 @@ namespace ERP
             GUILayout.Label($"Project Name Visible: {ERP.showProjectName}");
             GUILayout.Label($"Reset Timestap on scene change: {ERP.resetOnSceneChange}");
 
-            if (ToggleButton("Hide Scene name","Show Scene name", ref ERP.showSceneName))
+            if (ToggleButton("Hide Scene name", "Show Scene name", ref ERP.showSceneName))
             {
                 ERP.UpdateActivity();
             }
@@ -75,3 +76,4 @@ namespace ERP
         }
     }
 }
+#endif
