@@ -54,10 +54,17 @@ namespace ERP
                 ERPSettings.SaveSettings();
             }
             GUILayout.Label(string.Empty);
-            if (GUILayout.Button("Open ERP on Github"))
+            GUILayout.BeginHorizontal();
+            if (GUILayout.Button("GitHub Repository"))
             {
                 Application.OpenURL("https://github.com/MarshMello0/Editor-Rich-Presence");
             }
+            if (GUILayout.Button("Asset Store Page"))
+            {
+                Application.OpenURL("https://assetstore.unity.com/packages/tools/utilities/editor-rich-presence-178736");
+            }
+            GUILayout.EndHorizontal();
+
         }
 
         private bool ToggleButton(string trueText, string falseText, ref bool value)
