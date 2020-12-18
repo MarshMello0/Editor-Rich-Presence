@@ -29,6 +29,7 @@ namespace ERP
         public static bool debugMode = false;
         public static bool EditorClosed = true;
         public static long lastTimestamp = 0;
+        public static long lastSessionID = 0;
 
         public static bool Failed;
         static ERP()
@@ -57,11 +58,11 @@ namespace ERP
                 return;
             }
 
-            if (EditorClosed)
-            {
-                EditorClosed = false;
+            if (!resetOnSceneChange || EditorAnalyticsSessionInfo.id != lastSessionID)
                 lastTimestamp = GetTimestamp();
-            }
+
+            lastSessionID = EditorAnalyticsSessionInfo.id;
+
             projectName = Application.productName;
             sceneName = EditorSceneManager.GetActiveScene().name;
             UpdateActivity();
@@ -133,6 +134,13 @@ namespace ERP
         }
         public static long GetTimestamp()
         {
+            if (!resetOnSceneChange)
+            {
+                TimeSpan timeSpan = TimeSpan.FromMilliseconds(EditorAnalyticsSessionInfo.elapsedTime);
+                long timestamp = DateTimeOffset.Now.Add(timeSpan).ToUnixTimeSeconds();
+                Log("Got time stamp: " + timestamp);
+                return timestamp;
+            }
             long unixTimestamp = DateTimeOffset.Now.ToUnixTimeSeconds();
             Log("Got time stamp: " + unixTimestamp);
             return unixTimestamp;
