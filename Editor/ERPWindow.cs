@@ -40,14 +40,17 @@ namespace ERP
             if (ToggleButton("Hide Scene name", "Show Scene name", ref ERP.showSceneName))
             {
                 ERP.UpdateActivity();
+                ERPSettings.SaveSettings();
             }
             if (ToggleButton("Hide Project name", "Show Project name", ref ERP.showProjectName))
             {
                 ERP.UpdateActivity();
+                ERPSettings.SaveSettings();
             }
             if (ToggleButton("Don't reset timestap on scene change", "Reset timestap on scene change", ref ERP.resetOnSceneChange))
             {
                 ERP.UpdateActivity();
+                ERPSettings.SaveSettings();
             }
             if (ToggleButton("Disable Debug Mode", "Enable Debug Mode", ref ERP.debugMode))
             {

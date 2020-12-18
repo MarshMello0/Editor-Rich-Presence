@@ -59,7 +59,10 @@ namespace ERP
             }
 
             if (!resetOnSceneChange || EditorAnalyticsSessionInfo.id != lastSessionID)
+            {
                 lastTimestamp = GetTimestamp();
+                ERPSettings.SaveSettings();
+            }
 
             lastSessionID = EditorAnalyticsSessionInfo.id;
 
@@ -69,15 +72,7 @@ namespace ERP
 
             EditorApplication.update += Update;
             EditorSceneManager.sceneOpened += SceneOpened;
-            EditorApplication.quitting += Quitting;
             Log("Started!");
-        }
-
-        private static void Quitting()
-        {
-            Log("Quitting ERP");
-            EditorClosed = true;
-            ERPSettings.SaveSettings();
         }
 
         private static void SceneOpened(UnityEngine.SceneManagement.Scene scene, OpenSceneMode mode)
