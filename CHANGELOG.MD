@@ -1,5 +1,9 @@
 # Changelog
 
+## [3.1.1]
+### Fixed
+- Fixed Crash when discord is not running
+
 ## [3.0.2]
 ### Fixed
 - Fixed Issue with timestamps not showing on first import
