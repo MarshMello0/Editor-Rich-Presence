@@ -21,11 +21,15 @@ namespace ERP
             if (ERP.discord == null && !ERP.Failed)
                 ERP.DelayStart();
 
-            if (ERP.Failed)
+            if (ERP.Failed | ERP.Errored)
             {
                 GUILayout.Label($"ERP Failed to start", EditorStyles.boldLabel);
                 if (GUILayout.Button("Retry"))
+                {
+                    ERP.Errored = false;
+                    ERP.Failed = false;
                     ERP.Init();
+                }
                 return;
             }
             GUILayout.Label("Editor Rich Presence", EditorStyles.boldLabel);

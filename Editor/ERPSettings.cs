@@ -20,10 +20,11 @@ namespace ERP
         public bool EditorClosed;
         public long LastTimestamp;
         public long LastSessionID;
+        public bool Errored;
 
         public ERPSettings() { }
 
-        public ERPSettings(bool showSceneName, bool showProjectName, bool resetOnSceneChange, bool debugMode, bool editorClosed, long lastTimestamp, long lastSessionID)
+        public ERPSettings(bool showSceneName, bool showProjectName, bool resetOnSceneChange, bool debugMode, bool editorClosed, long lastTimestamp, long lastSessionID, bool errored)
         {
             this.showSceneName = showSceneName;
             this.showProjectName = showProjectName;
@@ -32,6 +33,7 @@ namespace ERP
             EditorClosed = editorClosed;
             LastTimestamp = lastTimestamp;
             LastSessionID = lastSessionID;
+            Errored = errored;
         }
 
         public static void GetSettings()
@@ -55,12 +57,13 @@ namespace ERP
             ERP.EditorClosed = settings.EditorClosed;
             ERP.lastTimestamp = settings.LastTimestamp;
             ERP.lastSessionID = settings.LastSessionID;
+            ERP.Errored = settings.Errored;
             ERP.Log("Applied Settings from file");
         }
 
         public static void SaveSettings()
         {
-            ERPSettings settings = new ERPSettings(ERP.showSceneName, ERP.showProjectName, ERP.resetOnSceneChange, ERP.debugMode, ERP.EditorClosed, ERP.lastTimestamp, ERP.lastSessionID);
+            ERPSettings settings = new ERPSettings(ERP.showSceneName, ERP.showProjectName, ERP.resetOnSceneChange, ERP.debugMode, ERP.EditorClosed, ERP.lastTimestamp, ERP.lastSessionID, ERP.Errored);
 
             XmlSerializer serializer = new XmlSerializer(typeof(ERPSettings));
             var stream = new FileStream(path, FileMode.Create);

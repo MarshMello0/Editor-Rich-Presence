@@ -9,6 +9,8 @@ using System.IO;
 using System.Threading.Tasks;
 using System.Threading;
 using ERP.Discord;
+using System.Diagnostics;
+using Debug = UnityEngine.Debug;
 
 namespace ERP
 {
@@ -30,6 +32,7 @@ namespace ERP
         public static bool EditorClosed = true;
         public static long lastTimestamp = 0;
         public static long lastSessionID = 0;
+        public static bool Errored = false;
 
         public static bool Failed;
         static ERP()
@@ -44,6 +47,22 @@ namespace ERP
         }
         public static void Init()
         {
+            if (Errored && lastSessionID == EditorAnalyticsSessionInfo.id)
+            {
+                if (debugMode)
+                    LogWarning($"Error but in same session");
+                return;
+            }
+
+            if (!DiscordRunning())
+            {
+                LogWarning("Can't find Discord's Process");
+                Failed = true;
+                Errored = true;
+                ERPSettings.SaveSettings();
+                return;
+            }
+
             try
             {
                 discord = new Discord.Discord(long.Parse(applicationId), (long)CreateFlags.Default);
@@ -153,6 +172,20 @@ namespace ERP
         public static void LogError(object message)
         {
             Debug.LogError(prefix + ": " + message);
+        }
+
+        private static bool DiscordRunning()
+        {
+            Process[] processes = Process.GetProcessesByName("Discord");
+
+            if (debugMode)
+            {
+                for (int i = 0; i < processes.Length; i++)
+                {
+                    Log($"({i}/{processes.Length - 1})Found Process {processes[i].ProcessName}");
+                }
+            }
+            return processes.Length != 0;
         }
 
     }
