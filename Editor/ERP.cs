@@ -178,6 +178,16 @@ namespace ERP
         {
             Process[] processes = Process.GetProcessesByName("Discord");
 
+            if (processes.Length == 0)
+            {
+                processes = Process.GetProcessesByName("DiscordPTB");
+
+                if (processes.Length == 0)
+                {
+                    processes = Process.GetProcessesByName("DiscordCanary");
+                }
+            }
+
             if (debugMode)
             {
                 for (int i = 0; i < processes.Length; i++)
