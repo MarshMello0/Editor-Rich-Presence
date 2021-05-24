@@ -1,5 +1,9 @@
 # Changelog
 
+## [3.1.2]
+### Fixed
+- Fixed not working with Discord PTB or Discord Canary
+
 ## [3.1.1]
 ### Fixed
 - Fixed Crash when discord is not running
