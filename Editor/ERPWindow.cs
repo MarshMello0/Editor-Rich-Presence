@@ -39,6 +39,7 @@ namespace ERP
         private static void Init()
         {
             Window = (ERPWindow)GetWindow(typeof(ERPWindow), false, "Editor Rich Presence");
+            Window.minSize = new Vector2(460, 230);
             Window.Show();
         }
 
