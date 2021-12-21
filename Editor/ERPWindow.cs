@@ -21,7 +21,7 @@ namespace ERP
             Disable
         }
         
-        private static ERPWindow _window;
+        public static ERPWindow Window;
         
         private static Font _fontRegular;
         private static Font _fontHeader;
@@ -38,8 +38,8 @@ namespace ERP
         [MenuItem("Window/Editor Rich Presence")]
         private static void Init()
         {
-            _window = (ERPWindow)GetWindow(typeof(ERPWindow), false, "Editor Rich Presence");
-            _window.Show();
+            Window = (ERPWindow)GetWindow(typeof(ERPWindow), false, "Editor Rich Presence");
+            Window.Show();
         }
         
         /*
@@ -134,7 +134,9 @@ namespace ERP
                 padding = new RectOffset(5,0,0,0)
             };
         }
-        
+
+        private void OnInspectorUpdate() => Repaint();
+
         private void OnGUI()
         {
             LoadAssets();
@@ -156,6 +158,7 @@ namespace ERP
             
             GUILayout.BeginVertical();
             GUILayout.Label("Unity", _textStyle);
+            ERP.Log($"{ERP.SceneName}|{ERP.ProjectName}");
             if (ERP.ShowSceneName)
                 GUILayout.Label(ERP.SceneName, _textStyle);
             if (ERP.ShowProjectName)

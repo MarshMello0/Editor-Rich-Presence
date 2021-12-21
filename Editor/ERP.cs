@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using System.Threading;
 using ERP.Discord;
 using System.Diagnostics;
+using UnityEngine.SceneManagement;
 using Debug = UnityEngine.Debug;
 
 namespace ERP
@@ -118,6 +119,7 @@ namespace ERP
             lastSessionID = settings.LastSessionID;
             Errored = settings.Errored;
             Log("Applied Settings from file");
+            GetNames();
         }
         
         public static async void DelayStart(int delay = 1000)
@@ -146,12 +148,15 @@ namespace ERP
 
             try
             {
-                if (discord != null)
+                if (discord == null)
                 {
-                    LogError("Discord isn't null but we are creating a new one");
+                    Log("Creating new discord");
+                    discord = new Discord.Discord(long.Parse(_applicationId), (long)CreateFlags.Default);
                 }
-                Log("Creating new discord");
-                discord = new Discord.Discord(long.Parse(_applicationId), (long)CreateFlags.Default);
+                else
+                {
+                    LogError("Discord isn't null but we are trying to creating a new one");
+                }
             }
             catch (Exception e)
             {
@@ -171,13 +176,23 @@ namespace ERP
 
             lastSessionID = EditorAnalyticsSessionInfo.id;
 
-            ProjectName = Application.productName;
-            SceneName = EditorSceneManager.GetActiveScene().name;
+            GetNames();
             UpdateActivity();
 
             EditorApplication.update += Update;
             EditorSceneManager.sceneOpened += SceneOpened;
             Log("Started!");
+
+            if (ERPWindow.Window != null)
+            {
+                ERPWindow.Window.Repaint();
+            }
+        }
+
+        private static void GetNames()
+        {
+            ProjectName = Application.productName;
+            SceneName = SceneManager.GetActiveScene().name;
         }
 
         private static void SceneOpened(UnityEngine.SceneManagement.Scene scene, OpenSceneMode mode)
