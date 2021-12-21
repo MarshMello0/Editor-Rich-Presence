@@ -43,27 +43,14 @@ namespace ERP
                 XmlSerializer serializer = new XmlSerializer(typeof(ERPSettings));
                 FileStream stream = new FileStream(path, FileMode.Open);
                 ERPSettings settings = serializer.Deserialize(stream) as ERPSettings;
-                ApplySettings(settings);
+                ERP.LoadSettings(settings);
                 stream.Close();
             }
         }
 
-        private static void ApplySettings(ERPSettings settings)
-        {
-            ERP.showSceneName = settings.showSceneName;
-            ERP.showProjectName = settings.showProjectName;
-            ERP.resetOnSceneChange = settings.resetOnSceneChange;
-            ERP.debugMode = settings.debugMode;
-            ERP.EditorClosed = settings.EditorClosed;
-            ERP.lastTimestamp = settings.LastTimestamp;
-            ERP.lastSessionID = settings.LastSessionID;
-            ERP.Errored = settings.Errored;
-            ERP.Log("Applied Settings from file");
-        }
-
         public static void SaveSettings()
         {
-            ERPSettings settings = new ERPSettings(ERP.showSceneName, ERP.showProjectName, ERP.resetOnSceneChange, ERP.debugMode, ERP.EditorClosed, ERP.lastTimestamp, ERP.lastSessionID, ERP.Errored);
+            ERPSettings settings = new ERPSettings(ERP.ShowSceneName, ERP.ShowProjectName, ERP.ResetOnSceneChange, ERP.DebugMode, ERP.EditorClosed, ERP.lastTimestamp, ERP.lastSessionID, ERP.Errored);
 
             XmlSerializer serializer = new XmlSerializer(typeof(ERPSettings));
             var stream = new FileStream(path, FileMode.Create);

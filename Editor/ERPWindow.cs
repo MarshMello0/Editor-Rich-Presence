@@ -9,6 +9,18 @@ namespace ERP
 {
     public class ERPWindow : EditorWindow
     {
+        enum Visibility
+        {
+            Visible,
+            Hidden
+        }
+
+        enum Status
+        {
+            Enabled,
+            Disable
+        }
+        
         private static ERPWindow _window;
         
         private static Font _fontRegular;
@@ -17,6 +29,11 @@ namespace ERP
         private static GUIStyle _textStyle;
         private static Texture _unityLogo;
         private static Texture _background;
+        
+        private static Visibility _sceneNameVisibility;
+        private static Visibility _projectNameVisibility;
+        private static Status _resetOnSceneChange;
+        private static Status _debugMode;
 
         [MenuItem("Window/Editor Rich Presence")]
         private static void Init()
@@ -126,13 +143,22 @@ namespace ERP
             GUI.DrawTexture(new Rect(0, 0, maxSize.x, maxSize.y), _background, ScaleMode.StretchToFill);
             
             GUILayout.Label("Editor Rich Presence", _headerStyle);
+
+            if (ERP.Errored)
+            {
+                ErrorUI();
+                return;
+            }
             
             GUILayout.BeginHorizontal();
             GUILayout.Label(_unityLogo, GUILayout.Height(60f), GUILayout.Width(60f));
             
             GUILayout.BeginVertical();
             GUILayout.Label("Unity", _textStyle);
-            GUILayout.Label(ERP.projectName, _textStyle);
+            if (ERP.ShowSceneName)
+                GUILayout.Label(ERP.SceneName, _textStyle);
+            if (ERP.ShowProjectName)
+                GUILayout.Label(ERP.ProjectName, _textStyle);
             TimeSpan difference = DateTime.Now.TimeOfDay - TimeSpan.FromTicks(ERP.lastTimestamp);
             GUILayout.Label($"{difference.Hours}:{difference.Minutes} elapsed", _textStyle);
             GUILayout.EndVertical();
@@ -147,10 +173,10 @@ namespace ERP
             GUILayout.Label("Debug mode", _textStyle);
             EditorGUILayout.EndVertical();
             EditorGUILayout.BeginVertical();
-            EditorGUILayout.EnumPopup(string.Empty, test);
-            test = (Visibility)EditorGUILayout.EnumPopup(string.Empty, test);
-            Test3 = (Status)EditorGUILayout.EnumPopup(string.Empty, Test3);
-            test2 = (Bool)EditorGUILayout.EnumPopup(string.Empty, test2);
+            _sceneNameVisibility = (Visibility)EditorGUILayout.EnumPopup(string.Empty, _sceneNameVisibility);
+            _projectNameVisibility = (Visibility)EditorGUILayout.EnumPopup(string.Empty, _projectNameVisibility);
+            _resetOnSceneChange = (Status)EditorGUILayout.EnumPopup(string.Empty, _resetOnSceneChange);
+            _debugMode = (Status)EditorGUILayout.EnumPopup(string.Empty, _debugMode);
             EditorGUILayout.EndVertical();
             EditorGUILayout.EndHorizontal();
 
@@ -159,12 +185,30 @@ namespace ERP
             GUILayout.Button("Source Code");
             EditorGUILayout.EndHorizontal();
             
+            CheckVariables();
         }
 
+        private void CheckVariables()
+        {
+            ERP.ShowSceneName = _sceneNameVisibility == Visibility.Visible;
+            ERP.ShowProjectName = _projectNameVisibility == Visibility.Visible;
+            ERP.ResetOnSceneChange = _resetOnSceneChange == Status.Enabled;
+            ERP.DebugMode = _debugMode == Status.Enabled;
+        }
 
-        private Visibility test;
-        private Bool test2;
-        private Status Test3;
+        private void ErrorUI()
+        {
+            EditorGUILayout.BeginHorizontal();
+            
+            GUILayout.Label("An error has occurred", _textStyle);
+            if (GUILayout.Button("Retry"))
+            {
+                ERP.Errored = false;
+                ERP.Init();
+            }
+            
+            EditorGUILayout.EndHorizontal();
+        }
         
         private bool ToggleButton(string trueText, string falseText, ref bool value)
         {
@@ -179,24 +223,6 @@ namespace ERP
                 return true;
             }
             return false;
-        }
-
-        enum Visibility
-        {
-            Visible,
-            Hidden
-        }
-
-        enum Bool
-        {
-            True,
-            False
-        }
-
-        enum Status
-        {
-            Enabled,
-            Disable
         }
     }
 }
