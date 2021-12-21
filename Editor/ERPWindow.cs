@@ -95,7 +95,7 @@ namespace ERP
             }
             
             GUILayout.BeginHorizontal();
-            GUILayout.Label(_unityLogo, GUILayout.Height(60f), GUILayout.Width(60f));
+            GUILayout.Label(_unityLogo, GUILayout.Height(80f), GUILayout.Width(80));
             
             GUILayout.BeginVertical();
             GUILayout.Label("Unity", _textStyle);
