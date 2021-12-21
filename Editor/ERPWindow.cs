@@ -98,13 +98,14 @@ namespace ERP
             
             GUILayout.BeginVertical();
             GUILayout.Label("Unity", _textStyle);
-            ERP.Log($"{ERP.SceneName}|{ERP.ProjectName}");
             if (ERP.ShowSceneName)
                 GUILayout.Label(ERP.SceneName, _textStyle);
             if (ERP.ShowProjectName)
                 GUILayout.Label(ERP.ProjectName, _textStyle);
-            TimeSpan difference = DateTime.Now.TimeOfDay - TimeSpan.FromTicks(ERP.lastTimestamp);
-            GUILayout.Label($"{difference.Hours}:{difference.Minutes} elapsed", _textStyle);
+            
+            long final = DateTimeOffset.Now.ToUnixTimeSeconds() - ERP.lastTimestamp;
+            TimeSpan difference = TimeSpan.FromSeconds(final);
+            GUILayout.Label($"{difference} elapsed", _textStyle);
             GUILayout.EndVertical();
             
             GUILayout.EndHorizontal();
