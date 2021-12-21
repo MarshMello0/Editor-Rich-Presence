@@ -155,7 +155,7 @@ namespace ERP
                 }
                 else
                 {
-                    LogError("Discord isn't null but we are trying to creating a new one");
+                    Log("Discord isn't null but we are trying to creating a new one");
                 }
             }
             catch (Exception e)
