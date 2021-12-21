@@ -147,6 +147,7 @@ namespace ERP
             if (ERP.Errored)
             {
                 ErrorUI();
+                Links();
                 return;
             }
             
@@ -180,12 +181,25 @@ namespace ERP
             EditorGUILayout.EndVertical();
             EditorGUILayout.EndHorizontal();
 
-            EditorGUILayout.BeginHorizontal();
-            GUILayout.Button("Unity Asset Store");
-            GUILayout.Button("Source Code");
-            EditorGUILayout.EndHorizontal();
-            
+            Links();
+
             CheckVariables();
+        }
+
+        private static void Links()
+        {
+            EditorGUILayout.BeginHorizontal();
+            if (GUILayout.Button("Unity Asset Store"))
+            {
+                Application.OpenURL("https://assetstore.unity.com/packages/tools/utilities/editor-rich-presence-178736");
+            }
+
+            if (GUILayout.Button("Source Code"))
+            {
+                Application.OpenURL("https://github.com/MarshMello0/Editor-Rich-Presence");
+            }
+            
+            EditorGUILayout.EndHorizontal();
         }
 
         private void CheckVariables()
