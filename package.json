@@ -1,6 +1,6 @@
 {
   "name": "com.ben-w.erp",
-  "version": "3.1.2",
+  "version": "4.0.0",
   "displayName": "Editor Rich Presence",
   "description": "Show off what you're working on in Unity with Editor Rich Presence on discord.\n\nEditor Rich Presence uses Discords GameSDK to display your project name, current active scene name and session time on your Discord profile. These can be disabled on a per-project basis.",
   "keywords": [

@@ -151,7 +151,7 @@ namespace ERP
                 if (discord == null)
                 {
                     Log("Creating new discord");
-                    discord = new Discord.Discord(long.Parse(_applicationId), (long)CreateFlags.Default);
+                    discord = new Discord.Discord(long.Parse(_applicationId), (long)CreateFlags.NoRequireDiscord);
                 }
                 else
                 {
